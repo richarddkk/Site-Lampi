@@ -74,6 +74,22 @@
                 </div>
             </div>
         </div>
+
+        <div id="member-modal" class="modal-overlay" style="display: none;">
+            <div class="modal-content card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                    <h3 id="modal-member-name" style="color: var(--primary);">Nome do Membro</h3>
+                    <button id="close-modal" class="btn" style="background: transparent; color: var(--text-muted); padding: 0.5rem; font-size: 1.2rem;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div style="font-size: 1.1rem; line-height: 1.8;">
+                    <p><strong><i class="fa-solid fa-calendar-days" style="color: #4A5568;"></i> Data de Entrada:</strong> <span id="modal-join-date">--/--/----</span></p>
+                    <p><strong><i class="fa-solid fa-clock" style="color: var(--accent-green);"></i> Horas no LAMPI:</strong> <span id="modal-total-hours">0</span>h</p>
+                </div>
+            </div>
+        </div>
+        
     </main>
 
     <script src="assets/js/script.js"></script>

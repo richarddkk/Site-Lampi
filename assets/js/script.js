@@ -11,7 +11,7 @@ const fileHandles = {
 const fileConfigs = {
     chamada: {
         name: 'lampi_chamadas.json',
-        keys: ['lampi_members', 'lampi_attendance'] // Chamada precisa dos membros e da frequência
+        keys: ['lampi_members', 'lampi_attendance', 'lampi_member_details'] // Chamada precisa dos membros e da frequência
     },
     projetos: {
         name: 'lampi_projetos.json',
@@ -107,6 +107,7 @@ function initDB() {
     if (!localStorage.getItem('lampi_projects')) localStorage.setItem('lampi_projects', JSON.stringify(defaultData.projects));
     if (!localStorage.getItem('lampi_inventory')) localStorage.setItem('lampi_inventory', JSON.stringify(defaultData.inventory));
     if (!localStorage.getItem('lampi_attendance')) localStorage.setItem('lampi_attendance', JSON.stringify(defaultData.attendance));
+    if (!localStorage.getItem('lampi_member_details')) localStorage.setItem('lampi_member_details', JSON.stringify({}));
 }
 
 function getData(key) { return JSON.parse(localStorage.getItem(key)); }
@@ -150,7 +151,7 @@ if (document.getElementById('chamada-page')) {
             const li = document.createElement('li');
             li.className = 'member-row';
             li.innerHTML = `
-                <div style="font-weight: 600;">${member}</div>
+                <div class="clickable-name" onclick="openMemberModal('${member}')" style="font-weight: 600;" title="Ver detalhes do membro">${member}</div>
                 <div>
                     <label class="switch">
                         <input type="checkbox" class="attendance-checkbox" data-member="${member}" ${isPresent ? 'checked' : ''}>
@@ -196,6 +197,60 @@ if (document.getElementById('chamada-page')) {
         alert("Chamada salva no navegador! Não esqueça de 'Sincronizar' na página inicial se quiser guardar no arquivo.");
     });
 
+    // --- LÓGICA DO MODAL DE HORAS ---
+    window.openMemberModal = function(memberName) {
+        const attendance = getData('lampi_attendance') || {};
+        const details = getData('lampi_member_details') || {};
+        
+        let totalShifts = 0;
+        let firstSeenDate = null;
+        
+        // Vasculha todo o histórico para contar presenças e achar a primeira data
+        Object.keys(attendance).sort().forEach(recordKey => {
+            if (attendance[recordKey][memberName] === true) {
+                totalShifts++;
+                const datePart = recordKey.split('_')[0];
+                if (!firstSeenDate) firstSeenDate = datePart; 
+            }
+        });
+
+        // Cada turno = 4 horas
+        const totalHours = totalShifts * 4;
+        
+        // Define a data de entrada (a salva no sistema OU a da 1ª presença)
+        let joinDate = details[memberName]?.joinDate;
+        if (!joinDate) {
+            joinDate = firstSeenDate || "Sem registros";
+        }
+
+        // Formata a data de AAAA-MM-DD para DD/MM/AAAA
+        let formattedDate = joinDate;
+        if (joinDate.includes('-')) {
+            const [y, m, d] = joinDate.split('-');
+            formattedDate = `${d}/${m}/${y}`;
+        }
+
+        // Preenche o modal e exibe
+        document.getElementById('modal-member-name').innerText = memberName;
+        document.getElementById('modal-join-date').innerText = formattedDate;
+        document.getElementById('modal-total-hours').innerText = totalHours;
+        document.getElementById('member-modal').style.display = 'flex';
+    };
+
+    // Fechar o modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('member-modal').style.display = 'none';
+    });
+
+    // Fechar clicando fora da caixinha
+    document.getElementById('member-modal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('member-modal')) {
+            document.getElementById('member-modal').style.display = 'none';
+        }
+    });
+
+
+
     document.getElementById('form-add-member').addEventListener('submit', (e) => {
         e.preventDefault();
         const input = document.getElementById('new-member-name');
@@ -205,6 +260,14 @@ if (document.getElementById('chamada-page')) {
             if(!members.includes(newName)) {
                 members.push(newName);
                 setData('lampi_members', members);
+                
+                // --- CÓDIGO NOVO AQUI ---
+                // Salva a data de entrada do novo membro como hoje
+                const details = getData('lampi_member_details') || {};
+                details[newName] = { joinDate: new Date().toISOString().split('T')[0] };
+                setData('lampi_member_details', details);
+                // -------------------------
+
                 input.value = '';
                 loadAttendancePage();
             } else { alert("Membro já existe!"); }
