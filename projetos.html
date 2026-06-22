@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAMPI | Projetos</title>
+    <link rel="icon" type="image/x-icon" href="LampiLogo.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="projetos-page">
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo-placeholder"><i class="fa-regular fa-lightbulb"></i></div>
+            LAMPI
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="chamada.html">Chamada</a></li>
+            <li><a href="projetos.html" class="active">Projetos</a></li>
+            <li><a href="inventario.html">Inventário (Tombos)</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <div class="dashboard-grid" style="grid-template-columns: 1fr 2fr;">
+            <!-- Form Novo Projeto -->
+            <div class="card" style="align-self: start;">
+                <h3><i class="fa-solid fa-folder-plus"></i> Registrar Novo Projeto</h3>
+                <form id="form-add-project" style="margin-top: 1.5rem;">
+                    <div class="form-group">
+                        <label>Título do Projeto</label>
+                        <input type="text" id="proj-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tecnologia Principal (Tag)</label>
+                        <input type="text" id="proj-tech" class="form-control" placeholder="Ex: Arduino, Python..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição Curta</label>
+                        <textarea id="proj-desc" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-green" style="width: 100%; justify-content: center;">Salvar Projeto</button>
+                </form>
+            </div>
+
+            <!-- Lista de Projetos -->
+            <div>
+                <h2 style="color: var(--primary); margin-bottom: 1.5rem;">Projetos em Andamento</h2>
+                <div class="projects-grid" id="projects-grid">
+                    <!-- Injetado via JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="display: flex; gap: 1rem;">
+            <button class="btn" style="background-color: #4A5568;" onclick="loadFromFile('projetos')">
+                <i class="fa-solid fa-file-import"></i> Carregar JSON de Projetos
+            </button>
+            <button class="btn btn-green" onclick="syncToFile('projetos')">
+                <i class="fa-solid fa-arrows-rotate"></i> Salvar JSON de Projetos
+            </button>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

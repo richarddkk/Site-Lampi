@@ -1,0 +1,145 @@
+/* CSS Variables baseadas na identidade visual do LAMPI */
+:root {
+    --primary: #25446E; /* Azul escuro principal */
+    --primary-light: #3A5B8A;
+    --primary-dark: #152A4A;
+    --accent-green: #AEE3B5; /* Verde claro */
+    --accent-green-dark: #8BC993;
+    --bg-color: #F4EBE1; /* Fundo creme/bege retro */
+    --surface: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #475569;
+    --border: #cbd5e1;
+    --success: #10b981;
+    --danger: #ef4444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* Navbar */
+.navbar {
+    background-color: var(--surface);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--primary);
+}
+
+.nav-brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    letter-spacing: 1px;
+}
+
+.logo-placeholder {
+    width: 45px;
+    height: 45px;
+    background-color: var(--bg-color);
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links a {
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary-dark);
+    background-color: var(--accent-green);
+}
+
+/* Utils */
+.container { max-width: 1200px; margin: 0 auto; padding: 3rem 5%; }
+.section-header { text-align: center; margin-bottom: 3rem; }
+.section-header h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem; }
+.section-header p { color: var(--text-muted); font-size: 1.1rem; }
+
+.btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background-color: var(--primary); color: white;
+    padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
+    font-weight: 600; cursor: pointer; transition: background 0.3s;
+}
+.btn:hover { background-color: var(--primary-dark); }
+.btn-green { background-color: var(--accent-green); color: var(--primary-dark); }
+.btn-green:hover { background-color: var(--accent-green-dark); }
+
+/* Forms & Modals */
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--primary); }
+.form-control {
+    width: 100%; padding: 0.75rem; border: 2px solid var(--border);
+    border-radius: 8px; font-family: inherit; transition: border-color 0.3s;
+}
+.form-control:focus { outline: none; border-color: var(--primary); }
+
+/* Dashboard Cards (Hero/News) */
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.card { background: var(--surface); padding: 2rem; border-radius: 12px; border: 2px solid var(--border); box-shadow: 4px 4px 0px var(--primary); }
+
+/* Chamada */
+.attendance-header { display: flex; justify-content: space-between; align-items: center; background: var(--surface); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 2px solid var(--border); }
+.attendance-filters { display: flex; gap: 1rem; align-items: center; }
+.attendance-board { background: var(--surface); border-radius: 12px; border: 2px solid var(--border); overflow: hidden; }
+.board-header { display: flex; justify-content: space-between; background: var(--primary); color: var(--surface); padding: 1rem 2rem; font-weight: bold; }
+.member-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; border-bottom: 1px solid var(--border); }
+.member-row:last-child { border-bottom: none; }
+.status-badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold; }
+.status-presente { background-color: #d1fae5; color: #065f46; }
+.status-ausente { background-color: #fee2e2; color: #991b1b; }
+
+/* Toggle */
+.switch { position: relative; display: inline-block; width: 60px; height: 30px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--danger); transition: .4s; border-radius: 30px; }
+.slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--success); }
+input:checked + .slider:before { transform: translateX(30px); }
+
+/* Table (Inventário) */
+.data-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 12px; overflow: hidden; border: 2px solid var(--border); }
+.data-table th, .data-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+.data-table th { background: var(--primary); color: white; font-weight: 600; }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* Grid de Projetos */
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.project-card { background: var(--surface); padding: 2rem; border-radius: 12px; border: 2px solid var(--border); border-top: 5px solid var(--primary); position: relative; }
+.project-tag { background: var(--accent-green); color: var(--primary-dark); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 1rem; }
+
+footer { text-align: center; padding: 2rem; color: var(--primary); font-weight: 600; margin-top: 3rem; border-top: 2px solid var(--border); }
+
+

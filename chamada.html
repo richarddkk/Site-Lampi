@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAMPI | Frequência</title>
+    <link rel="icon" type="image/x-icon" href="LampiLogo.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="chamada-page">
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo-placeholder"><i class="fa-regular fa-lightbulb"></i></div>
+            LAMPI
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="chamada.html" class="active">Chamada</a></li>
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="inventario.html">Inventário (Tombos)</a></li>
+        </ul>
+        
+    </nav>
+
+    <main class="container">
+        <section class="section-header">
+            <h2>Controle de Frequência Interativo</h2>
+            <p>Selecione a data para ver o status. As alterações são salvas no seu navegador.</p>
+        </section>
+
+        <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr; margin-bottom: 2rem;">
+            <div>
+                <div class="attendance-header">
+                    <div class="attendance-filters">
+                        <input type="date" id="date-picker" class="form-control" style="width: auto;">
+                        <select id="shift-picker" class="form-control" style="width: auto;">
+                            <option value="manha">Manhã</option>
+                            <option value="tarde">Tarde</option>
+                            <option value="noite">Noite</option>
+                        </select>
+                    </div>
+                    <div id="save-status"></div>
+                </div>
+
+                <div class="attendance-board">
+                    <div class="board-header">
+                        <div>Nome do Membro</div>
+                        <div>Presença</div>
+                    </div>
+                    <ul id="members-list" style="list-style: none;"></ul>
+                </div>
+                
+                <div style="margin-top: 1.5rem; text-align: right;">
+                    <button class="btn btn-green" id="btn-save"><i class="fa-solid fa-floppy-disk"></i> Salvar Chamada do Dia</button>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <div class="card">
+                    <h3><i class="fa-solid fa-user-plus"></i> Novo Membro</h3>
+                    <form id="form-add-member" style="margin-top: 1rem;">
+                        <div class="form-group">
+                            <input type="text" id="new-member-name" class="form-control" placeholder="Ex: Maria Clara" required>
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; justify-content: center;">Adicionar</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fa-solid fa-users-gear"></i> Integrantes Cadastrados</h3>
+                    <ul id="manage-members-list" style="list-style: none; margin-top: 1rem; max-height: 250px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; background: #fff;"></ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+    <footer style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="display: flex; gap: 1rem;">
+            <button class="btn" style="background-color: #4A5568;" onclick="loadFromFile('chamada')">
+                <i class="fa-solid fa-file-import"></i> Carregar JSON de Chamadas
+            </button>
+            <button class="btn btn-green" onclick="syncToFile('chamada')">
+                <i class="fa-solid fa-arrows-rotate"></i> Salvar JSON de Chamadas
+            </button>
+        </div>
+    </footer>
+</body>
+</html>

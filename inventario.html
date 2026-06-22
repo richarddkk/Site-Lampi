@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAMPI | Inventário</title>
+    <link rel="icon" type="image/x-icon" href="LampiLogo.ico">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="inventario-page">
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo-placeholder"><i class="fa-regular fa-lightbulb"></i></div>
+            LAMPI
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="chamada.html">Chamada</a></li>
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="inventario.html" class="active">Inventário (Tombos)</a></li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <section class="section-header">
+            <h2>Gestão de Patrimônio do LAMPI</h2>
+            <p>Controle de tombos, notebooks, sensores e responsáveis atuais.</p>
+        </section>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3><i class="fa-solid fa-plus"></i> Adicionar / Editar Equipamento</h3>
+            <form id="form-add-item" style="margin-top: 1.5rem; display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
+                <div class="form-group" style="flex: 1; min-width: 150px;">
+                    <label>Nº do Tombo</label>
+                    <input type="text" id="item-tombo" class="form-control" required>
+                </div>
+                <div class="form-group" style="flex: 2; min-width: 200px;">
+                    <label>Equipamento</label>
+                    <input type="text" id="item-name" class="form-control" required>
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 150px;">
+                    <label>Status</label>
+                    <select id="item-status" class="form-control">
+                        <option value="Disponível">Disponível</option>
+                        <option value="Em uso">Em uso</option>
+                        <option value="Manutenção">Manutenção</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1; min-width: 150px;">
+                    <label>Responsável</label>
+                    <input type="text" id="item-user" class="form-control" placeholder="Opcional">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-green" style="height: 48px;">Registrar</button>
+                </div>
+            </form>
+        </div>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tombo</th>
+                    <th>Equipamento</th>
+                    <th>Status</th>
+                    <th>Responsável</th>
+                    <th style="width: 100px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody id="inventory-tbody"></tbody>
+        </table>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+    <footer style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="display: flex; gap: 1rem;">
+            <button class="btn" style="background-color: #4A5568;" onclick="loadFromFile('inventario')">
+                <i class="fa-solid fa-file-import"></i> Carregar JSON do Inventário
+            </button>
+            <button class="btn btn-green" onclick="syncToFile('inventario')">
+                <i class="fa-solid fa-arrows-rotate"></i> Salvar JSON do Inventário
+            </button>
+        </div>
+    </footer>
+</body>
+</html>

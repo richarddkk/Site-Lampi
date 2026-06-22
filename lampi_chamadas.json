@@ -1,0 +1,100 @@
+{
+  "lampi_members": [
+    "Antonio Willian",
+    "Francisco Gabriel",
+    "Gabriel Fernandes",
+    "Jailson",
+    "João Francisco",
+    "Karol",
+    "Larissa Lacerda",
+    "Murilo Soares Maciel",
+    "Richard",
+    "Fernando"
+  ],
+  "lampi_attendance": {
+    "2026-06-11_manha": {
+      "Antonio Willian": true,
+      "Fernando viado": false,
+      "Francisco Gabriel": true,
+      "Gabriel Fernandes": true,
+      "Jailson": false,
+      "João Francisco": false,
+      "Karol": false,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": true,
+      "Richard": true
+    },
+    "2026-06-15_manha": {
+      "Antonio Willian": true,
+      "Fernando": false,
+      "Francisco Gabriel": false,
+      "Gabriel Fernandes": true,
+      "Jailson": false,
+      "João Francisco": false,
+      "Karol": false,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": true,
+      "Richard": true
+    },
+    "2026-06-15_tarde": {
+      "Antonio Willian": true,
+      "Fernando": false,
+      "Francisco Gabriel": true,
+      "Gabriel Fernandes": false,
+      "Jailson": true,
+      "João Francisco": false,
+      "Karol": true,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": true,
+      "Richard": true
+    },
+    "2026-06-16_manha": {
+      "Antonio Willian": true,
+      "Fernando": false,
+      "Francisco Gabriel": true,
+      "Gabriel Fernandes": true,
+      "Jailson": false,
+      "João Francisco": false,
+      "Karol": false,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": true,
+      "Richard": true
+    },
+    "2026-06-16_tarde": {
+      "Antonio Willian": true,
+      "Fernando": false,
+      "Francisco Gabriel": false,
+      "Gabriel Fernandes": true,
+      "Jailson": false,
+      "João Francisco": false,
+      "Karol": false,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": true,
+      "Richard": true
+    },
+    "2026-06-18_tarde": {
+      "Antonio Willian": false,
+      "Fernando": false,
+      "Francisco Gabriel": false,
+      "Gabriel Fernandes": true,
+      "Jailson": false,
+      "João Francisco": false,
+      "Karol": false,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": true,
+      "Richard": true
+    },
+    "2026-06-19_manha": {
+      "Antonio Willian": true,
+      "Fernando": false,
+      "Francisco Gabriel": true,
+      "Gabriel Fernandes": false,
+      "Jailson": false,
+      "João Francisco": false,
+      "Karol": false,
+      "Larissa Lacerda": false,
+      "Murilo Soares Maciel": false,
+      "Richard": true
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "lampi_projects": [
+    {
+      "id": 1,
+      "title": "Sistema de Reserva Inteligente",
+      "tech": "Web",
+      "desc": "Sistema para gerenciar reservas de assentos."
+    },
+    {
+      "id": 2,
+      "title": "Reconhecimento de Gestos",
+      "tech": "OpenCV",
+      "desc": "Rastreamento de marcos das mãos."
+    },
+    {
+      "id": 1781186546912,
+      "title": "Sophya",
+      "tech": "Python",
+      "desc": "Projeto de monitoramento motor de crianças"
+    }
+  ]
+}
