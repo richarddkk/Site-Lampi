@@ -1,5 +1,44 @@
-// --- CONTROLE DE ARQUIVOS FÍSICOS (JSON SEPARADOS) ---
+// --- SISTEMA DE LOGIN ---
+// Defina aqui os usuários e senhas de quem pode acessar o sistema
+const allowedUsers = {
+    "Richard": "pimenta06",
+    "Murilo": "143.266.070-28" // Substitua pelo nome e senha reais
+};
 
+// Descobre em qual página o usuário está no momento
+const currentPage = window.location.pathname.split("/").pop() || "index.html";
+
+// Se não estiver logado e tentar acessar qualquer página que não seja o login, é redirecionado
+const isLoggedIn = sessionStorage.getItem("lampi_logged_in");
+
+if (!isLoggedIn && currentPage !== "login.html") {
+    window.location.href = "login.html";
+}
+
+// Lógica exclusiva da página de Login
+if (document.getElementById('login-page')) {
+    document.getElementById('form-login').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const user = document.getElementById('login-user').value.trim();
+        const pass = document.getElementById('login-pass').value.trim();
+
+        if (allowedUsers[user] && allowedUsers[user] === pass) {
+            // Salva o login na sessão (apaga quando fechar o navegador)
+            sessionStorage.setItem("lampi_logged_in", user);
+            window.location.href = "index.html";
+        } else {
+            alert("Usuário ou senha incorretos!");
+        }
+    });
+}
+
+// Função de Sair (Logout)
+function logout() {
+    sessionStorage.removeItem("lampi_logged_in");
+    window.location.href = "login.html";
+}
+// ------------------------
+// --- CONTROLE DE ARQUIVOS FÍSICOS (JSON SEPARADOS) ---
 // Guardamos a referência de cada arquivo separadamente
 const fileHandles = {
     chamada: null,
