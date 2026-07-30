@@ -73,8 +73,20 @@
         </table>
     </main>
 
-    <script src="assets/js/script.js"></script>
-    <footer style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+<!-- 1. Importações do SDK Firebase via CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<!-- 2. Banco de Dados -->
+<script src="assets/js/firebase-db.js"></script>
+
+<!-- 3. Controle de Sessão -->
+<script src="assets/js/auth.js"></script>
+
+<!-- 4. Lógica do Sistema -->
+<script src="assets/js/apps.js"></script>
+
+  <!--  <footer style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
         <div style="display: flex; gap: 1rem;">
             <button class="btn" style="background-color: #4A5568;" onclick="loadFromFile('inventario')">
                 <i class="fa-solid fa-file-import"></i> Carregar JSON do Inventário
@@ -83,6 +95,6 @@
                 <i class="fa-solid fa-arrows-rotate"></i> Salvar JSON do Inventário
             </button>
         </div>
-    </footer>
+    </footer>-->
 </body>
 </html>
