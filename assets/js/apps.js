@@ -234,13 +234,44 @@ if (document.getElementById('chamada-page')) {
 
     window.editMember = async function(oldName) {
         const newName = prompt(`Editar nome de: ${oldName}`, oldName);
-        if (newName && newName.trim() !== "") {
+        if (newName && newName.trim() !== "" && newName.trim() !== oldName) {
+            const formattedNewName = newName.trim();
             const docData = (await dbAPI.getDoc("lampi_data", "attendance_system")) || {};
-            const members = docData.members || [];
+            let members = docData.members || [];
+            let details = docData.member_details || {};
+            let attendance = docData.attendance || {};
+
             const idx = members.indexOf(oldName);
             if (idx !== -1) {
-                members[idx] = newName.trim();
-                await dbAPI.setDoc("lampi_data", "attendance_system", { members: members });
+                // 1. Atualiza o nome na lista principal
+                members[idx] = formattedNewName;
+
+                // 2. Transfere a data de entrada (joinDate) para o novo nome
+                if (details[oldName]) {
+                    details[formattedNewName] = details[oldName];
+                    delete details[oldName];
+                }
+
+                // 3. Transfere TODAS as presenças antigas do nome velho para o novo nome
+                Object.keys(attendance).forEach(recordKey => {
+                    if (attendance[recordKey] && attendance[recordKey][oldName] !== undefined) {
+                        attendance[recordKey][formattedNewName] = attendance[recordKey][oldName];
+                        delete attendance[recordKey][oldName];
+                    }
+                });
+
+                // 4. Salva tudo atualizado no Firebase
+                const sucesso = await dbAPI.setDoc("lampi_data", "attendance_system", { 
+                    members: members,
+                    member_details: details,
+                    attendance: attendance
+                });
+
+                if (sucesso) {
+                    alert(`Nome alterado com sucesso! Todo o histórico de horas de "${oldName}" foi mantido para "${formattedNewName}".`);
+                } else {
+                    alert("Erro ao atualizar o histórico no Firebase.");
+                }
             }
         }
     };

@@ -12,8 +12,10 @@ const allowedUsers = {
 const currentPage = window.location.pathname.split("/").pop() || "index.html";
 const isLoggedIn = sessionStorage.getItem("lampi_logged_in");
 
+const publicPages = ["login.html", "index.html", ""];
+
 // Redirecionamento automático caso não esteja logado
-if (!isLoggedIn && currentPage !== "login.html") {
+if (!isLoggedIn && !publicPages.includes(currentPage)) {
     window.location.href = "login.html";
 }
 
