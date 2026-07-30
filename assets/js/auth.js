@@ -4,7 +4,8 @@
 
 const allowedUsers = {
     "Richard": "pimenta06",
-    "Murilo": "143.266.070-28" // Substitua pela senha real
+    "Murilo": "143.266.070-28", // Substitua pela senha real
+    "Gabriel": "6545"
 };
 
 // Descobre em qual página o usuário está no momento
