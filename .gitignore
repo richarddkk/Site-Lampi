@@ -1,0 +1,11 @@
+__pycache__/
+.venv/
+dist/
+build/
+*.db
+*.sqlite3*
+*.log
+serviceAccount*.json
+.env*
+lampi_chamadas.json
+lampi_projetos.json

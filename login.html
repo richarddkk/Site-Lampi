@@ -20,23 +20,26 @@
 
         <form id="form-login" style="text-align: left;">
             <div class="form-group">
-                <label>Usuário</label>
-                <input type="text" id="login-user" class="form-control" placeholder="Ex: Richard" required>
+                <label for="login-user">E-mail</label>
+                <input type="email" autocomplete="username" id="login-user" class="form-control" placeholder="nome@exemplo.edu.br" required>
             </div>
             <div class="form-group">
                 <label>Senha</label>
-                <input type="password" id="login-pass" class="form-control" required>
+                <input type="password" autocomplete="current-password" id="login-pass" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-green" style="width: 100%; justify-content: center; margin-top: 1rem; height: 48px;">
                 <i class="fa-solid fa-right-to-bracket"></i> Entrar
             </button>
+        <p id="login-error" role="status"></p>
         </form>
     </div>
 <!-- 1. Importações do SDK Firebase via CDN -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
 
+<script src="assets/js/firebase-db.js"></script>
 <script src="assets/js/auth.js"></script>
 
 </body>

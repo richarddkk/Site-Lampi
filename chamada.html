@@ -2,119 +2,95 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LAMPI | Frequência</title>
-    <link rel="icon" type="image/x-icon" href="LampiLogo.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LAMPI e GCOMPH | Frequência</title>
+    <link rel="icon" href="LampiLogo.ico">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/frequencia.css">
 </head>
 <body id="chamada-page">
     <nav class="navbar">
-        <div class="nav-brand">
-            <div class="logo-placeholder"><i class="fa-regular fa-lightbulb"></i></div>
-            LAMPI
-        </div>
+        <a class="nav-brand" href="index.html"><span class="logo-placeholder" aria-hidden="true">L</span>LAMPI</a>
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="chamada.html" class="active">Chamada</a></li>
+            <li><a href="chamada.html" class="active" aria-current="page">Chamada</a></li>
             <li><a href="projetos.html">Projetos</a></li>
-            <li><a href="inventario.html">Inventário (Tombos)</a></li>
-            <li><a href="#" onclick="logout()" style="color: var(--danger);"><i class="fa-solid fa-power-off"></i> Sair</a></li>
+            <li><a href="inventario.html">Inventário</a></li>
+            <li><button id="logout" type="button">Sair</button></li>
         </ul>
-        
     </nav>
-
-    <main class="container">
-        <section class="section-header">
-            <h2>Controle de Frequência Interativo</h2>
-            <p>Selecione a data para ver o status. As alterações são salvas no seu navegador.</p>
-        </section>
-
-        <div class="dashboard-grid" style="grid-template-columns: 2fr 1fr; margin-bottom: 2rem;">
-            <div>
-                <div class="attendance-header">
-                    <div class="attendance-filters">
-                        <input type="date" id="date-picker" class="form-control" style="width: auto;">
-                        <select id="shift-picker" class="form-control" style="width: auto;">
-                            <option value="manha">Manhã</option>
-                            <option value="tarde">Tarde</option>
-                            <option value="noite">Noite</option>
-                        </select>
-                    </div>
-                    <div id="save-status"></div>
+    <main class="frequency">
+        <header class="frequency-header">
+            <div><p>Gestão do laboratório</p><h1>Controle de frequência</h1></div>
+            <div class="group-picker" aria-label="Grupo">
+                <button type="button" data-group="lampi" aria-pressed="true">LAMPI</button>
+                <button type="button" data-group="gcomph" aria-pressed="false">GCOMPH</button>
+            </div>
+        </header>
+        <p class="notice" id="connection" role="status">Verificando a sessão…</p>
+        <p class="notice" id="chamada-status" role="status" hidden></p>
+        <div class="frequency-layout">
+            <section class="frequency-card">
+                <div class="frequency-title"><h2>Chamada</h2><span id="count-shift"></span></div>
+                <div class="frequency-filters">
+                    <label>Data<input id="date-picker" class="form-control" type="date" required></label>
+                    <label>Turno<select id="shift-picker" class="form-control">
+                        <option value="manha">Manhã</option><option value="tarde">Tarde</option><option value="noite">Noite</option>
+                    </select></label>
+                    <button class="btn" id="btn-save" type="button" disabled>Salvar alterações</button>
                 </div>
-
                 <div class="attendance-board">
-                    <div class="board-header">
-                        <div>Nome do Membro</div>
-                        <div>Presença</div>
-                    </div>
-                    <ul id="members-list" style="list-style: none;"></ul>
+                    <div class="board-header"><span>Integrante</span><span>Presente</span></div>
+                    <ul id="members-list"></ul>
                 </div>
-                
-                <div style="margin-top: 1.5rem; text-align: right;">
-                    <button class="btn btn-green" id="btn-save"><i class="fa-solid fa-floppy-disk"></i> Salvar Chamada do Dia</button>
-                </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                <div class="card">
-                    <h3><i class="fa-solid fa-user-plus"></i> Novo Membro</h3>
-                    <form id="form-add-member" style="margin-top: 1rem;">
-                        <div class="form-group">
-                            <input type="text" id="new-member-name" class="form-control" placeholder="Ex: Maria Clara" required>
-                        </div>
-                        <button type="submit" class="btn" style="width: 100%; justify-content: center;">Adicionar</button>
-                    </form>
-                </div>
-
-                <div class="card">
-                    <h3><i class="fa-solid fa-users-gear"></i> Integrantes Cadastrados</h3>
-                    <ul id="manage-members-list" style="list-style: none; margin-top: 1rem; max-height: 250px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; background: #fff;"></ul>
-                </div>
-            </div>
+            </section>
+            <section class="frequency-card">
+                <div class="frequency-title"><h2>Integrantes</h2><button type="button" id="add-member" class="btn btn-green" disabled>+ Cadastrar</button></div>
+                <label class="search">Buscar<input type="search" id="member-search" class="form-control" placeholder="Nome ou TAG"></label>
+                <label class="check-line"><input type="checkbox" id="show-archived"> Mostrar arquivados</label>
+                <ul id="manage-members-list"></ul>
+            </section>
         </div>
-
-        <div id="member-modal" class="modal-overlay" style="display: none;">
-            <div class="modal-content card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
-                    <h3 id="modal-member-name" style="color: var(--primary);">Nome do Membro</h3>
-                    <button id="close-modal" class="btn" style="background: transparent; color: var(--text-muted); padding: 0.5rem; font-size: 1.2rem;">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div style="font-size: 1.1rem; line-height: 1.8;">
-                    <p><strong><i class="fa-solid fa-calendar-days" style="color: #4A5568;"></i> Data de Entrada:</strong> <span id="modal-join-date">--/--/----</span></p>
-                    <p><strong><i class="fa-solid fa-clock" style="color: var(--accent-green);"></i> Horas no LAMPI:</strong> <span id="modal-total-hours">0</span>h</p>
+        <section class="frequency-card overview">
+            <div class="frequency-title">
+                <h2>Visão geral</h2>
+                <div class="report-buttons">
+                    <button class="btn btn-green" id="export-week" type="button" disabled>Excel semanal</button>
+                    <button class="btn btn-green" id="export-month" type="button" disabled>Excel mensal</button>
+                    <button class="btn" id="export-charts" type="button" disabled>Gráficos em PNG</button>
                 </div>
             </div>
-        </div>
-        
+            <p id="report-period" class="muted">Relatórios usam a data da chamada como referência.</p>
+            <div id="metrics" class="metrics"></div>
+            <div class="charts">
+                <section><h3>Presentes por dia</h3><p class="muted">Últimos 14 dias até a data selecionada</p><canvas id="chart-days" role="img"></canvas></section>
+                <section><h3>Dias presentes por integrante</h3><p class="muted">Mês da data selecionada</p><canvas id="chart-people" role="img"></canvas></section>
+            </div>
+        </section>
+        <dialog id="member-dialog">
+            <form id="member-form" class="frequency-dialog">
+                <div class="frequency-title"><h2 id="member-title">Cadastrar integrante</h2></div>
+                <p id="member-info" class="muted"></p>
+                <label>Nome completo<input id="member-name" class="form-control" required maxlength="120"></label>
+                <label>Número da TAG
+                    <input id="member-tag" class="form-control" inputmode="numeric" pattern="[0-9]{3,32}" maxlength="32" autocomplete="off" placeholder="Aproxime a TAG com o cursor aqui">
+                </label>
+                <p class="muted">A TAG é opcional para a chamada manual.</p>
+                <p id="member-error" role="status"></p>
+                <div class="dialog-actions">
+                    <button class="btn btn-green" id="archive-member" type="button" hidden>Arquivar</button>
+                    <button class="btn btn-green" id="close-member" type="button">Cancelar</button>
+                    <button class="btn" id="save-member" type="submit">Salvar integrante</button>
+                </div>
+            </form>
+        </dialog>
     </main>
-
-  <!-- 1. Importações do SDK Firebase via CDN -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-<!-- 2. Banco de Dados -->
-<script src="assets/js/firebase-db.js"></script>
-
-<!-- 3. Controle de Sessão -->
-<script src="assets/js/auth.js"></script>
-
-<!-- 4. Lógica do Sistema -->
-<script src="assets/js/apps.js"></script>
-
-   <!-- <footer style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1.5rem; padding-bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-        <div style="display: flex; gap: 1rem;">
-            <button class="btn" style="background-color: #4A5568;" onclick="loadFromFile('chamada')">
-                <i class="fa-solid fa-file-import"></i> Carregar JSON de Chamadas
-            </button>
-            <button class="btn btn-green" onclick="syncToFile('chamada')">
-                <i class="fa-solid fa-arrows-rotate"></i> Salvar JSON de Chamadas
-            </button>
-        </div>
-    </footer>-->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="assets/js/firebase-db.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/vendor/exceljs.min.js"></script>
+    <script type="module" src="assets/js/chamada.mjs"></script>
 </body>
 </html>

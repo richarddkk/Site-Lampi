@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function role(name) {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/lampi_access/$(request.auth.uid)).data.role == name;
+    }
+
+    function admin() { return role('admin'); }
+    function reader() { return admin() || role('kiosk'); }
+    function validGroup(group) { return group in ['lampi', 'gcomph']; }
+
+    match /lampi_access/{uid} {
+      allow get: if request.auth != null && request.auth.uid == uid;
+    }
+
+    match /lampi_data/{document} {
+      allow get: if (document == 'attendance_system' && reader()) ||
+        (document in ['projects_system', 'inventory_system'] && admin());
+      allow create, update: if document in ['projects_system', 'inventory_system'] && admin();
+    }
+
+    match /attendance_v2/{group} {
+      allow get: if validGroup(group) && reader();
+      allow create, update: if validGroup(group) && admin() &&
+        request.resource.data.keys().hasOnly(['members']) &&
+        request.resource.data.members is map;
+
+      match /marks/{mark} {
+        function validMark() {
+          let data = request.resource.data;
+          return data.keys().hasAll(['memberId', 'date', 'shift', 'present', 'source', 'savedAt', 'actor']) &&
+            data.keys().hasOnly(['memberId', 'date', 'shift', 'present', 'source', 'savedAt', 'actor', 'readAt']) &&
+            data.memberId is string && data.memberId.size() <= 1300 && data.memberId.matches('[a-zA-Z0-9_-]+') &&
+            data.date is string && data.date.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}') &&
+            data.shift in ['manha', 'tarde', 'noite'] &&
+            data.present is bool && data.actor == request.auth.uid &&
+            data.savedAt == request.time &&
+            mark == data.date + '_' + data.shift + '_' + data.memberId;
+        }
+
+        function hasRegisteredTag() {
+          let person = get(/databases/$(database)/documents/attendance_v2/$(group)).data.members[request.resource.data.memberId];
+          return person.active == true && person.tag is string && person.tag.matches('[0-9]{3,32}');
+        }
+
+        function isManual() {
+          return request.resource.data.source == 'manual' &&
+            !request.resource.data.keys().hasAny(['readAt']);
+        }
+
+        function isRfid() {
+          let data = request.resource.data;
+          return data.source == 'rfid' && data.present == true &&
+            data.readAt is timestamp && hasRegisteredTag();
+        }
+
+        allow get, list: if validGroup(group) && reader();
+        allow create: if validGroup(group) &&
+          ((admin() && isManual()) || (reader() && isRfid())) && validMark();
+        allow update: if validGroup(group) && admin() && isManual() && validMark();
+      }
+    }
+  }
+}
